@@ -5,7 +5,7 @@
 #include <string.h>
 #include "classes.h"
 
-int initial[75][12][2] = {0};
+char *initial[75][12] = {0};
 int count = 0;
 int accept = 0;
 int start = 0;
@@ -17,19 +17,7 @@ char dors = '\0';
 
 
 void  matrix(){
-  /**  for(int i = 0; i < statesv; i ++){ //the first column
-    for(int j = 0; j != 0; j++){ //each row (filled with zeroes, so you hit the end when you hit a zero)
-      int curState = initial[i][0][]; //current state
-      char curStatus[2] = {0}; //TODO: split on / take the last two numbers
-      int firstNumber = 0; //split on the / take the first number (the num before the slash)
-      states[curState][firstNumber] = curStatus; //copy curStatus into this value
-    }
-    for(int k = 0; k < 12; k++){ //iterating through the row in the new matrix again, to fill empty spaces
-      if(states[curState][k] == 0){ //if it is an empty space (initialized to 0)
-	states[curState][k] = "99d"; //fill with 99d
-      }
-    }   
-    }**/
+  
 }
 
 
@@ -81,6 +69,9 @@ void scanner(FILE *fp){
   classcharacter = -1;
   statenumber = -1;
   dors = '\0';
+  int zates;
+  int* p = (int*)malloc(2 * sizeof(int));
+
   
   while((ptr = fgets(buf, 256, fp)) != NULL){
     if (count == 0){
@@ -102,38 +93,36 @@ void scanner(FILE *fp){
       char StringCurrent[266];
       strcpy(StringCurrent, ptr);
       char* atoken;
-      int btoken;
-      atoken = strtok(StringCurrent, " \t"); //do something with n_cc is useful maybe use 2 arrays in third 3d array
-      btoken = (int)(__intptr_t)atoken;
+      atoken = strtok(StringCurrent, " \t"); 
       while(atoken != NULL){
-	//printf("%s\n", atoken);
+	if(strlen(atoken) == 1) {
+	  statenumber  = atoi(atoken); 
+	}
 	atoken = strtok(NULL, " \n\t");
 	//printf("%s\n", atoken);
 	if(atoken != NULL) {
-	  printf("%s\n", atoken);
-	  if(strlen(atoken) == 1){
-	    printf("equals 1");
-	  }
-	  sscanf(atoken, "%d/%d%c", &classcharacter, &statenumber, &dors);
-	  initial[count + 3][classcharacter][0] = statenumber;//somehow needs to have btoken in counts place
-	  if(dors == 'd'){
-	    initial[classcharacter][statenumber][2] = 0; //0 means delete
-	  }
-	  if(dors == 's'){
-	    initial[classcharacter][statenumber][2] = 1; //1 means save
-	  }
+	  //printf("%s\n", atoken);
+	  sscanf(atoken, "%d/%d%c", &classcharacter, &zates, &dors);
+	  char anotherarray[3] = "";
+	  sprintf(anotherarray, "%d%c", zates, dors);
+	  //printf("[%d][%d] = %d%c\n", statenumber,classcharacter,zates,dors); 
+	  initial[statenumber][classcharacter] = anotherarray;
 	}
  	
       }
     }
     count++;    
   }
-  for(int i = 0; i < classcharacter; i++){
-    for(int j = 0; j < statenumber; j++){
-      for(int k = 0; k < dors; k++){
-	printf("%d\t" , initial[i][j][k]);
+  printf("%s", "      0     1     2     3     4     5     6     7     8     9     10     11\n");
+  for(int i = 0; i < statenumber; i++){
+    printf("%d ", i);
+    for(int j = 0; j < 12; j++){
+      if(initial[i][j] == NULL){
+	initial[i][j] = "99d";
       }
-    }
+      printf("  %4s" , initial[i][j]);
+      }
+    printf("\n");
   }
 }
 
