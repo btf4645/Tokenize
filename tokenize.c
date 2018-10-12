@@ -1,5 +1,13 @@
+/**
+ *Author: Rebecca Fried
+ *File: Tokenize
+ *This file scans in a matrix and then decides where certain elements should go depending on that
+ *
+ **/
+//Define statement for the future use of strdup
 #define _DEFAULT_SOURCE
 
+//All of the include statements that helpfully 
 #include <stdio.h>
 #include <unistd.h>
 #include <stdbool.h>
@@ -12,6 +20,7 @@ char *initial[75][12];
 int count = 0;
 int accept = 0;
 int start = 0;
+char something[64];
 int statesv = 0;
 int classcharacter;
 int statenumber;
@@ -34,6 +43,8 @@ void  matrix(){
     sscanf(aspot, "%d%c", &statenumber, &dors);
     if(dors == 's'){
       printf("%d ", statenumber);
+      something[counter] = a;
+      counter++;
     }
     if(statenumber == 99){
       printf("%d ", statenumber);
@@ -45,13 +56,20 @@ void  matrix(){
 	a = getchar();
 	num = classification(a);
       }
+      memset(something, '\0', 64);
+      counter = 0;
       statenumber = start;
       printf("%d ", statenumber);
     }
     else if(statenumber == accept){
       printf("%d ", statenumber);
-      printf("recognized ");
-      printf("\n");
+      printf("recognized '");
+      for(size_t i = 0; i < strlen(something); i++){
+	printf("%c", something[i]);
+      }
+      printf("'\n");
+      memset(something, '\0', 64);
+      counter = 0;
       statenumber = start;
       printf("%d ", statenumber);
     }
